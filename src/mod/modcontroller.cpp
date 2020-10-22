@@ -1,9 +1,11 @@
 /* (c) fokkonaut. See licence.txt in the root of the distribution for more information. */
 #include "modcontroller.h"
+#include "defines.h"
 
 #include <game/server/gamecontext.h>
 #include <game/server/entities/character.h>
 #include <game/server/player.h>
+#include <engine/shared/config.h>
 
 
 CModController *g_pMod;
@@ -15,6 +17,8 @@ CModController::CModController(CGameContext *pGameServer)
 
 	for (int i = 0; i < MAX_CLIENTS; i++)
 		m_apPlayers[i] = 0;
+
+	str_copy(GameServer()->Config()->m_SvGametype, "mod", sizeof(GameServer()->Config()->m_SvGametype));
 }
 
 CModController::~CModController()

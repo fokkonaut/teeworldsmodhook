@@ -1637,6 +1637,7 @@ set(GAME_GENERATED_SERVER
   src/generated/server_data.h
 )
 set_src(MOD GLOB src/mod
+  defines.h
   modcharacter.cpp
   modcharacter.h
   modcontroller.cpp
