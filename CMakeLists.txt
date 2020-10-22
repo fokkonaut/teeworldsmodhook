@@ -1636,7 +1636,15 @@ set(GAME_GENERATED_SERVER
   src/generated/server_data.cpp
   src/generated/server_data.h
 )
-set(SERVER_SRC ${ENGINE_SERVER} ${GAME_SERVER} ${GAME_GENERATED_SERVER})
+set_src(MOD GLOB src/mod
+  modcharacter.cpp
+  modcharacter.h
+  modcontroller.cpp
+  modcontroller.h
+  modplayer.cpp
+  modplayer.h
+)
+set(SERVER_SRC ${ENGINE_SERVER} ${GAME_SERVER} ${GAME_GENERATED_SERVER} ${MOD})
 if(TARGET_OS STREQUAL "windows")
   set(SERVER_ICON "other/icons/${SERVER_EXECUTABLE}.rc")
 else()

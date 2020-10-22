@@ -22,6 +22,8 @@
 #include "gamecontext.h"
 #include "player.h"
 
+#include <mod/modcontroller.h>
+
 enum
 {
 	RESET,
@@ -43,6 +45,7 @@ void CGameContext::Construct(int Resetting)
 	m_pVoteOptionLast = 0;
 	m_NumVoteOptions = 0;
 	m_LockTeams = 0;
+	g_pMod = 0;
 
 	if(Resetting==NO_RESET)
 		m_pVoteOptionHeap = new CHeap();
@@ -511,6 +514,7 @@ void CGameContext::OnTick()
 
 	//if(world.paused) // make sure that the game object always updates
 	m_pController->Tick();
+	g_pMod->Tick();
 
 	for(int i = 0; i < MAX_CLIENTS; i++)
 	{
@@ -715,6 +719,8 @@ void CGameContext::OnClientConnected(int ClientID, bool Dummy, bool AsSpec)
 
 	m_apPlayers[ClientID] = new(ClientID) CPlayer(this, ClientID, Dummy, AsSpec);
 
+	g_pMod->OnClientEnter(ClientID);
+
 	if(Dummy)
 		return;
 
@@ -747,6 +753,7 @@ void CGameContext::OnClientDrop(int ClientID, const char *pReason)
 {
 	AbortVoteOnDisconnect(ClientID);
 	m_pController->OnPlayerDisconnect(m_apPlayers[ClientID]);
+	g_pMod->OnClientDrop(ClientID);
 
 	// update clients on drop
 	if(Server()->ClientIngame(ClientID) || IsClientBot(ClientID))
@@ -1558,6 +1565,8 @@ void CGameContext::OnInit()
 	m_Events.SetGameServer(this);
 	m_CommandManager.Init(m_pConsole, this, NewCommandHook, RemoveCommandHook);
 
+	g_pMod = new CModController(this);
+
 	// HACK: only set static size for items, which were available in the first 0.7 release
 	// so new items don't break the snapshot delta
 	static const int OLD_NUM_NETOBJTYPES = 23;
@@ -1633,6 +1642,8 @@ void CGameContext::OnShutdown()
 {
 	delete m_pController;
 	m_pController = 0;
+	delete g_pMod;
+	g_pMod = 0;
 	Clear();
 }
 

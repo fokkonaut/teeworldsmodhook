@@ -7,6 +7,8 @@
 #include "gamecontroller.h"
 #include "player.h"
 
+#include <mod/modcontroller.h>
+
 
 MACRO_ALLOC_POOL_ID_IMPL(CPlayer, MAX_CLIENTS)
 
@@ -46,6 +48,8 @@ void CPlayer::Tick()
 	if(!IsDummy() && !Server()->ClientIngame(m_ClientID))
 		return;
 
+	g_pMod->Player(m_ClientID)->Tick();
+
 	Server()->SetClientScore(m_ClientID, m_Score);
 
 	// do latency stuff
@@ -73,6 +77,7 @@ void CPlayer::Tick()
 	{
 		delete m_pCharacter;
 		m_pCharacter = 0;
+		g_pMod->Player(this)->DeleteCharacter();
 	}
 
 	if(!GameServer()->m_pController->IsGamePaused())
@@ -156,6 +161,8 @@ void CPlayer::Snap(int SnappingClient)
 	pPlayerInfo->m_Latency = SnappingClient == -1 ? m_Latency.m_Min : GameServer()->m_apPlayers[SnappingClient]->m_aActLatency[m_ClientID];
 	pPlayerInfo->m_Score = m_Score;
 
+	g_pMod->Player(this)->OnSnap(pPlayerInfo);
+
 	if(m_ClientID == SnappingClient && (m_Team == TEAM_SPECTATORS || m_DeadSpecMode))
 	{
 		CNetObj_SpectatorInfo *pSpectatorInfo = static_cast<CNetObj_SpectatorInfo *>(Server()->SnapNewItem(NETOBJTYPE_SPECTATORINFO, m_ClientID, sizeof(CNetObj_SpectatorInfo)));
@@ -174,6 +181,8 @@ void CPlayer::Snap(int SnappingClient)
 			pSpectatorInfo->m_X = m_ViewPos.x;
 			pSpectatorInfo->m_Y = m_ViewPos.y;
 		}
+
+		g_pMod->Player(this)->OnSnap(pSpectatorInfo);
 	}
 
 	// demo recording
@@ -323,6 +332,7 @@ void CPlayer::KillCharacter(int Weapon)
 		m_pCharacter->Die(m_ClientID, Weapon);
 		delete m_pCharacter;
 		m_pCharacter = 0;
+		g_pMod->Player(this)->DeleteCharacter();
 	}
 }
 
