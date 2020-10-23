@@ -7,6 +7,7 @@
 #include "defines.h"
 
 #include <engine/shared/protocol.h>
+#include <base/vmath.h>
 
 #ifdef MOD
 
@@ -30,12 +31,23 @@ public:
 	class CModCharacter *Character(int ClientID);
 	class CModCharacter *Character(CCharacter *pCharacter);
 
+	void InitPlayer(int ClientID);
+	void DeletePlayer(int ClientID);
+
 	CGameContext *GameServer() { return m_pGameServer; }
 	IGameController *GameController();
 	IServer *Server();
 
-	void InitPlayer(int ClientID);
-	void DeletePlayer(int ClientID);
+	// Network
+	void SendChatTarget(int To, const char *pText);
+	void SendMotd(int To, const char *pText);
+
+	void CreateSoundGlobal(int Sound);
+	void CreateSoundPlayer(int Sound, int ClientID);
+	void CreateSoundPlayerAt(vec2 Pos, int Sound, int ClientID);
+
+	// Getters
+	int GetCIDByName(const char *pName);
 
 	// Hooks
 	void OnClientEnter(int ClientID);

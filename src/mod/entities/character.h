@@ -23,6 +23,7 @@ public:
 	CModCharacter();
 	~CModCharacter();
 	void Tick();
+	int GetCID();
 
 	CGameContext *GameServer();
 	IGameController *GameController();

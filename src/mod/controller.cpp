@@ -65,6 +65,48 @@ void CModController::Tick()
 
 }
 
+void CModController::SendChatTarget(int To, const char *pText)
+{
+	CNetMsg_Sv_Chat Msg;
+	Msg.m_Mode = CHAT_ALL;
+	Msg.m_ClientID = -1;
+	Msg.m_pMessage = pText;
+	Msg.m_TargetID = -1;
+	Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, To);
+}
+
+void CModController::SendMotd(int To, const char *pText)
+{
+	CNetMsg_Sv_Motd Msg;
+	Msg.m_pMessage = pText;
+	Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, To);
+}
+
+int CModController::GetCIDByName(const char *pName)
+{
+	for (int i = 0; i < MAX_CLIENTS; i++)
+		if (m_apPlayers[i] && !str_comp(pName, Server()->ClientName(i)))
+			return i;
+	return -1;
+}
+
+void CModController::CreateSoundGlobal(int Sound)
+{
+	for (int i = 0; i < MAX_CLIENTS; i++)
+		if (m_apPlayers[i])
+			CreateSoundPlayer(Sound, i);
+}
+
+void CModController::CreateSoundPlayer(int Sound, int ClientID)
+{
+	GameServer()->CreateSound(GameServer()->m_apPlayers[ClientID]->m_ViewPos, Sound, CmaskOne(ClientID));
+}
+
+void CModController::CreateSoundPlayerAt(vec2 Pos, int Sound, int ClientID)
+{
+	GameServer()->CreateSound(Pos, Sound, CmaskOne(ClientID));
+}
+
 void CModController::OnClientEnter(int ClientID)
 {
 	

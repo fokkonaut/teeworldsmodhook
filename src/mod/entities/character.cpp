@@ -25,6 +25,11 @@ CModCharacter::~CModCharacter()
 	// Nothing to clean...
 }
 
+int CModCharacter::GetCID()
+{
+	return m_pPlayer->GetCID();
+}
+
 void CModCharacter::OnSpawn(CModPlayer *pPlayer)
 {
 	m_pPlayer = pPlayer;
