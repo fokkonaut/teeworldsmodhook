@@ -51,6 +51,11 @@ CCharacter::CCharacter(CGameWorld *pWorld)
 	m_TriggeredEvents = 0;
 }
 
+CCharacter::~CCharacter()
+{
+	PLAYER(m_pPlayer)->DeleteCharacter();
+}
+
 void CCharacter::Reset()
 {
 	Destroy();
@@ -873,7 +878,7 @@ void CCharacter::Snap(int SnappingClient)
 			pCharacter->m_Emote = EMOTE_BLINK;
 	}
 
-	CHARACTER(this)->OnSnap(pCharacter);
+	CHARACTER(this)->OnSnap(SnappingClient, pCharacter);
 }
 
 void CCharacter::PostSnap()

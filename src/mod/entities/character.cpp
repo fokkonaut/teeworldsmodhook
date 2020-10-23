@@ -7,10 +7,19 @@
 
 MACRO_ALLOC_POOL_ID_IMPL(CModCharacter, MAX_CLIENTS)
 
+CGameContext *CModCharacter::GameServer() { return MOD->GameServer(); }
+IGameController *CModCharacter::GameController() { return MOD->GameController(); }
+IServer *CModCharacter::Server() { return MOD->Server(); }
 
-CModCharacter::CModCharacter(CGameContext *pGameServer)
+
+CModCharacter::CModCharacter()
 {
-	m_pGameServer = pGameServer;
+
+}
+
+CModCharacter::~CModCharacter()
+{
+	// Nothing to clean...
 }
 
 void CModCharacter::OnSpawn(CModPlayer *pPlayer)
@@ -25,10 +34,10 @@ void CModCharacter::OnDeath()
 
 void CModCharacter::Tick()
 {
-
+	
 }
 
-void CModCharacter::OnSnap(CNetObj_Character *pCharacter)
+void CModCharacter::OnSnap(int SnappingClient, CNetObj_Character *pCharacter)
 {
 
 }

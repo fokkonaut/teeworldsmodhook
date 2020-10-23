@@ -6,6 +6,8 @@
 #include <generated/protocol.h>
 
 class CGameContext;
+class IGameController;
+class IServer;
 class CModPlayer;
 
 
@@ -14,18 +16,20 @@ class CModCharacter
 	MACRO_ALLOC_POOL_ID()
 
 public:
-	CModCharacter(CGameContext *pGameServer);
+	CModCharacter();
+	~CModCharacter();
 	void Tick();
 
-	CGameContext *GameServer() { return m_pGameServer; }
+	CGameContext *GameServer();
+	IGameController *GameController();
+	IServer *Server();
 
 	// Hooks
 	void OnSpawn(CModPlayer *pPlayer);
 	void OnDeath();
-	void OnSnap(CNetObj_Character *pCharacter);
+	void OnSnap(int SnappingClient, CNetObj_Character *pCharacter);
 
 private:
-	CGameContext *m_pGameServer;
 	CModPlayer *m_pPlayer;
 };
 

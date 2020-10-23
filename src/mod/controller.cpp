@@ -6,13 +6,17 @@
 #include <game/server/player.h>
 #include <engine/shared/config.h>
 
+IGameController *CModController::GameController() { return GameServer()->m_pController; }
+IServer *CModController::Server() { return GameServer()->Server(); }
 
 CModController *g_pMod;
+
 
 CModController::CModController(CGameContext *pGameServer)
 {
 	m_pGameServer = pGameServer;
 	m_pServer = pGameServer->Server();
+	m_pGameController = pGameServer->m_pController;
 
 	for (int i = 0; i < MAX_CLIENTS; i++)
 		m_apPlayers[i] = 0;
@@ -42,6 +46,17 @@ class CModCharacter *CModController::Character(CCharacter *pCharacter)
 	return m_apPlayers[pCharacter->GetPlayer()->GetCID()]->GetCharacter();
 }
 
+void CModController::InitPlayer(int ClientID)
+{
+	m_apPlayers[ClientID] = new(ClientID) CModPlayer(ClientID);
+}
+
+void CModController::DeletePlayer(int ClientID)
+{
+	delete m_apPlayers[ClientID];
+	m_apPlayers[ClientID] = 0;
+}
+
 void CModController::Tick()
 {
 
@@ -49,11 +64,10 @@ void CModController::Tick()
 
 void CModController::OnClientEnter(int ClientID)
 {
-	m_apPlayers[ClientID] = new(ClientID) CModPlayer(ClientID, GameServer());
+	
 }
 
 void CModController::OnClientDrop(int ClientID)
 {
-	delete m_apPlayers[ClientID];
-	m_apPlayers[ClientID] = 0;
+
 }

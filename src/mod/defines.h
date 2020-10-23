@@ -3,6 +3,6 @@
 #define MOD_DEFINES
 #define GAME_NAME "fokko"
 #define MOD g_pMod
-#define PLAYER(p) MOD->Player(p) // either ClientID or pPlayer is passed
-#define CHARACTER(c) MOD->Character(c) // either ClientID or pCharacter is passed
+#define PLAYER(p) MOD->Player(p)
+#define CHARACTER(c) MOD->Character(c)
 #endif

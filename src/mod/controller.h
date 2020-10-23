@@ -9,6 +9,7 @@
 #include <engine/shared/protocol.h>
 
 class CGameContext;
+class IGameController;
 class IServer;
 class CPlayer;
 class CCharacter;
@@ -19,6 +20,7 @@ class CModController
 public:
 	CModController(CGameContext *pGameServer);
 	~CModController();
+
 	void Tick();
 
 	class CModPlayer *Player(int ClientID) { return m_apPlayers[ClientID]; }
@@ -27,7 +29,11 @@ public:
 	class CModCharacter *Character(CCharacter *pCharacter);
 
 	CGameContext *GameServer() { return m_pGameServer; }
-	IServer *Server() { return m_pServer; }
+	IGameController *GameController();
+	IServer *Server();
+
+	void InitPlayer(int ClientID);
+	void DeletePlayer(int ClientID);
 
 	// Hooks
 	void OnClientEnter(int ClientID);
@@ -35,6 +41,7 @@ public:
 
 private:
 	class CGameContext *m_pGameServer;
+	class IGameController *m_pGameController;
 	class IServer *m_pServer;
 
 	class CModPlayer *m_apPlayers[MAX_CLIENTS];

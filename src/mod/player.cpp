@@ -7,12 +7,20 @@
 
 MACRO_ALLOC_POOL_ID_IMPL(CModPlayer, MAX_CLIENTS)
 
+CGameContext *CModPlayer::GameServer() { return MOD->GameServer(); }
+IGameController *CModPlayer::GameController() { return MOD->GameController(); }
+IServer *CModPlayer::Server() { return MOD->Server(); }
 
-CModPlayer::CModPlayer(int ClientID, CGameContext *pGameServer)
+
+CModPlayer::CModPlayer(int ClientID)
 {
 	m_ClientID = ClientID;
-	m_pGameServer = pGameServer;
 	m_pCharacter = 0;
+}
+
+CModPlayer::~CModPlayer()
+{
+	DeleteCharacter();
 }
 
 void CModPlayer::DeleteCharacter()
@@ -28,7 +36,7 @@ void CModPlayer::Tick()
 
 void CModPlayer::OnSpawn()
 {
-	m_pCharacter = new(m_ClientID) CModCharacter(m_pGameServer);
+	m_pCharacter = new(m_ClientID) CModCharacter();
 	m_pCharacter->OnSpawn(this);
 }
 
@@ -38,12 +46,12 @@ void CModPlayer::OnDeath()
 		m_pCharacter->OnDeath();
 }
 
-void CModPlayer::OnSnap(CNetObj_PlayerInfo *pPlayerInfo)
+void CModPlayer::OnSnap(int SnappingClient, CNetObj_PlayerInfo *pPlayerInfo)
 {
 
 }
 
-void CModPlayer::OnSnap(CNetObj_SpectatorInfo *pSpectatorInfo)
+void CModPlayer::OnSnap(int SnappingClient, CNetObj_SpectatorInfo *pSpectatorInfo)
 {
 
 }

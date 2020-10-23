@@ -35,12 +35,14 @@ CPlayer::CPlayer(CGameContext *pGameServer, int ClientID, bool Dummy, bool AsSpe
 	m_RespawnDisabled = GameServer()->m_pController->GetStartRespawnState();
 	m_DeadSpecMode = false;
 	m_Spawning = 0;
+	MOD->InitPlayer(m_ClientID);
 }
 
 CPlayer::~CPlayer()
 {
 	delete m_pCharacter;
 	m_pCharacter = 0;
+	MOD->DeletePlayer(m_ClientID);
 }
 
 void CPlayer::Tick()
@@ -77,7 +79,6 @@ void CPlayer::Tick()
 	{
 		delete m_pCharacter;
 		m_pCharacter = 0;
-		PLAYER(this)->DeleteCharacter();
 	}
 
 	if(!GameServer()->m_pController->IsGamePaused())
@@ -161,7 +162,7 @@ void CPlayer::Snap(int SnappingClient)
 	pPlayerInfo->m_Latency = SnappingClient == -1 ? m_Latency.m_Min : GameServer()->m_apPlayers[SnappingClient]->m_aActLatency[m_ClientID];
 	pPlayerInfo->m_Score = m_Score;
 
-	PLAYER(this)->OnSnap(pPlayerInfo);
+	PLAYER(this)->OnSnap(SnappingClient, pPlayerInfo);
 
 	if(m_ClientID == SnappingClient && (m_Team == TEAM_SPECTATORS || m_DeadSpecMode))
 	{
@@ -182,7 +183,7 @@ void CPlayer::Snap(int SnappingClient)
 			pSpectatorInfo->m_Y = m_ViewPos.y;
 		}
 
-		PLAYER(this)->OnSnap(pSpectatorInfo);
+		PLAYER(this)->OnSnap(SnappingClient, pSpectatorInfo);
 	}
 
 	// demo recording
@@ -332,7 +333,6 @@ void CPlayer::KillCharacter(int Weapon)
 		m_pCharacter->Die(m_ClientID, Weapon);
 		delete m_pCharacter;
 		m_pCharacter = 0;
-		PLAYER(this)->DeleteCharacter();
 	}
 }
 

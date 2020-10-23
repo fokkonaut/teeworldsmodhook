@@ -45,7 +45,6 @@ void CGameContext::Construct(int Resetting)
 	m_pVoteOptionLast = 0;
 	m_NumVoteOptions = 0;
 	m_LockTeams = 0;
-	MOD = 0;
 
 	if(Resetting==NO_RESET)
 		m_pVoteOptionHeap = new CHeap();
@@ -67,6 +66,7 @@ CGameContext::~CGameContext()
 		delete m_apPlayers[i];
 	if(!m_Resetting)
 		delete m_pVoteOptionHeap;
+	MOD->~CModController();
 }
 
 void CGameContext::Clear()
@@ -1642,8 +1642,6 @@ void CGameContext::OnShutdown()
 {
 	delete m_pController;
 	m_pController = 0;
-	delete MOD;
-	MOD = 0;
 	Clear();
 }
 
