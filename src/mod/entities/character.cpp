@@ -1,6 +1,6 @@
 /* (c) fokkonaut. See licence.txt in the root of the distribution for more information. */
-#include "modcharacter.h"
-#include "modcontroller.h"
+#include "character.h"
+#include "../controller.h"
 #include <game/server/gamecontext.h>
 #include <game/server/player.h>
 #include <game/server/entities/character.h>

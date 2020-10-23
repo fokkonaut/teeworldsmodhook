@@ -11,7 +11,7 @@
 #include "laser.h"
 #include "projectile.h"
 
-#include <mod/modcontroller.h>
+#include <mod/controller.h>
 
 //input count
 struct CInputCount
@@ -82,7 +82,7 @@ bool CCharacter::Spawn(CPlayer *pPlayer, vec2 Pos)
 
 	GameServer()->m_pController->OnCharacterSpawn(this);
 
-	g_pMod->Player(m_pPlayer->GetCID())->OnSpawn();
+	PLAYER(m_pPlayer)->OnSpawn();
 
 	return true;
 }
@@ -536,7 +536,7 @@ void CCharacter::ResetInput()
 
 void CCharacter::Tick()
 {
-	g_pMod->Character(this)->Tick();
+	CHARACTER(this)->Tick();
 
 	m_Core.m_Input = m_Input;
 	m_Core.Tick(true);
@@ -720,7 +720,7 @@ void CCharacter::Die(int Killer, int Weapon)
 	GameWorld()->m_Core.m_apCharacters[m_pPlayer->GetCID()] = 0;
 	GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
 
-	g_pMod->Player(m_pPlayer)->OnDeath();
+	PLAYER(m_pPlayer)->OnDeath();
 }
 
 bool CCharacter::TakeDamage(vec2 Force, vec2 Source, int Dmg, int From, int Weapon)
@@ -873,7 +873,7 @@ void CCharacter::Snap(int SnappingClient)
 			pCharacter->m_Emote = EMOTE_BLINK;
 	}
 
-	g_pMod->Character(this)->OnSnap(pCharacter);
+	CHARACTER(this)->OnSnap(pCharacter);
 }
 
 void CCharacter::PostSnap()

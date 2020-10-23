@@ -1637,13 +1637,13 @@ set(GAME_GENERATED_SERVER
   src/generated/server_data.h
 )
 set_src(MOD GLOB src/mod
+  controller.cpp
+  controller.h
   defines.h
-  modcharacter.cpp
-  modcharacter.h
-  modcontroller.cpp
-  modcontroller.h
-  modplayer.cpp
-  modplayer.h
+  entities/character.cpp
+  entities/character.h
+  player.cpp
+  player.h
 )
 set(SERVER_SRC ${ENGINE_SERVER} ${GAME_SERVER} ${GAME_GENERATED_SERVER} ${MOD})
 if(TARGET_OS STREQUAL "windows")

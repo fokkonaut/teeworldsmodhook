@@ -2,8 +2,9 @@
 #ifndef MOD_CONTROLLER_H
 #define MOD_CONTROLLER_H
 
-#include "modplayer.h"
-#include "modcharacter.h"
+#include "player.h"
+#include "entities/character.h"
+#include "defines.h"
 
 #include <engine/shared/protocol.h>
 
