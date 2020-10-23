@@ -56,8 +56,6 @@ public:
 private:
 	// Normal game objects so we can access them from the mod controller
 	class CGameContext *m_pGameServer;
-	class IGameController *m_pGameController;
-	class IServer *m_pServer;
 
 	// Players within the mod controller, not the normal player array!
 	class CModPlayer *m_apPlayers[MAX_CLIENTS];

@@ -655,6 +655,10 @@ void CGameContext::OnClientEnter(int ClientID)
 
 	m_pController->OnPlayerConnect(m_apPlayers[ClientID]);
 
+#ifdef MOD
+	MOD->OnClientEnter(ClientID);
+#endif
+
 	m_VoteUpdate = true;
 
 	// update client infos (others before local)
@@ -724,10 +728,6 @@ void CGameContext::OnClientConnected(int ClientID, bool Dummy, bool AsSpec)
 	dbg_assert(!m_apPlayers[ClientID], "non-free player slot");
 
 	m_apPlayers[ClientID] = new(ClientID) CPlayer(this, ClientID, Dummy, AsSpec);
-
-#ifdef MOD
-	MOD->OnClientEnter(ClientID);
-#endif
 
 	if(Dummy)
 		return;

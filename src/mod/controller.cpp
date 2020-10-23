@@ -17,8 +17,6 @@ CModController *g_pMod;
 CModController::CModController(CGameContext *pGameServer)
 {
 	m_pGameServer = pGameServer;
-	m_pServer = pGameServer->Server();
-	m_pGameController = pGameServer->m_pController;
 
 	for (int i = 0; i < MAX_CLIENTS; i++)
 		m_apPlayers[i] = 0;
@@ -109,7 +107,7 @@ void CModController::CreateSoundPlayerAt(vec2 Pos, int Sound, int ClientID)
 
 void CModController::OnClientEnter(int ClientID)
 {
-	
+
 }
 
 void CModController::OnClientDrop(int ClientID)
