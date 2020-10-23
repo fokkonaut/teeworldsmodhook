@@ -35,14 +35,20 @@ CPlayer::CPlayer(CGameContext *pGameServer, int ClientID, bool Dummy, bool AsSpe
 	m_RespawnDisabled = GameServer()->m_pController->GetStartRespawnState();
 	m_DeadSpecMode = false;
 	m_Spawning = 0;
+
+#ifdef MOD
 	MOD->InitPlayer(m_ClientID);
+#endif
 }
 
 CPlayer::~CPlayer()
 {
 	delete m_pCharacter;
 	m_pCharacter = 0;
+
+#ifdef MOD
 	MOD->DeletePlayer(m_ClientID);
+#endif
 }
 
 void CPlayer::Tick()
@@ -50,7 +56,9 @@ void CPlayer::Tick()
 	if(!IsDummy() && !Server()->ClientIngame(m_ClientID))
 		return;
 
+#ifdef MOD
 	PLAYER(this)->Tick();
+#endif
 
 	Server()->SetClientScore(m_ClientID, m_Score);
 
@@ -162,7 +170,9 @@ void CPlayer::Snap(int SnappingClient)
 	pPlayerInfo->m_Latency = SnappingClient == -1 ? m_Latency.m_Min : GameServer()->m_apPlayers[SnappingClient]->m_aActLatency[m_ClientID];
 	pPlayerInfo->m_Score = m_Score;
 
+#ifdef MOD
 	PLAYER(this)->OnSnap(SnappingClient, pPlayerInfo);
+#endif
 
 	if(m_ClientID == SnappingClient && (m_Team == TEAM_SPECTATORS || m_DeadSpecMode))
 	{
@@ -183,7 +193,9 @@ void CPlayer::Snap(int SnappingClient)
 			pSpectatorInfo->m_Y = m_ViewPos.y;
 		}
 
+#ifdef MOD
 		PLAYER(this)->OnSnap(SnappingClient, pSpectatorInfo);
+#endif
 	}
 
 	// demo recording

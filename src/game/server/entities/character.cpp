@@ -53,7 +53,9 @@ CCharacter::CCharacter(CGameWorld *pWorld)
 
 CCharacter::~CCharacter()
 {
+#ifdef MOD
 	PLAYER(m_pPlayer)->DeleteCharacter();
+#endif
 }
 
 void CCharacter::Reset()
@@ -87,7 +89,9 @@ bool CCharacter::Spawn(CPlayer *pPlayer, vec2 Pos)
 
 	GameServer()->m_pController->OnCharacterSpawn(this);
 
+#ifdef MOD
 	PLAYER(m_pPlayer)->OnSpawn();
+#endif
 
 	return true;
 }
@@ -541,7 +545,9 @@ void CCharacter::ResetInput()
 
 void CCharacter::Tick()
 {
+#ifdef MOD
 	CHARACTER(this)->Tick();
+#endif
 
 	m_Core.m_Input = m_Input;
 	m_Core.Tick(true);
@@ -725,7 +731,9 @@ void CCharacter::Die(int Killer, int Weapon)
 	GameWorld()->m_Core.m_apCharacters[m_pPlayer->GetCID()] = 0;
 	GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
 
+#ifdef MOD
 	PLAYER(m_pPlayer)->OnDeath();
+#endif
 }
 
 bool CCharacter::TakeDamage(vec2 Force, vec2 Source, int Dmg, int From, int Weapon)
@@ -878,7 +886,9 @@ void CCharacter::Snap(int SnappingClient)
 			pCharacter->m_Emote = EMOTE_BLINK;
 	}
 
+#ifdef MOD
 	CHARACTER(this)->OnSnap(SnappingClient, pCharacter);
+#endif
 }
 
 void CCharacter::PostSnap()

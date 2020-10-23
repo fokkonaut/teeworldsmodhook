@@ -6,6 +6,8 @@
 #include <game/server/player.h>
 #include <engine/shared/config.h>
 
+#ifdef MOD
+
 IGameController *CModController::GameController() { return GameServer()->m_pController; }
 IServer *CModController::Server() { return GameServer()->Server(); }
 
@@ -71,3 +73,5 @@ void CModController::OnClientDrop(int ClientID)
 {
 
 }
+
+#endif

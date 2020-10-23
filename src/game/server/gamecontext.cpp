@@ -66,7 +66,10 @@ CGameContext::~CGameContext()
 		delete m_apPlayers[i];
 	if(!m_Resetting)
 		delete m_pVoteOptionHeap;
+
+#ifdef MOD
 	MOD->~CModController();
+#endif
 }
 
 void CGameContext::Clear()
@@ -514,7 +517,10 @@ void CGameContext::OnTick()
 
 	//if(world.paused) // make sure that the game object always updates
 	m_pController->Tick();
+
+#ifdef MOD
 	MOD->Tick();
+#endif
 
 	for(int i = 0; i < MAX_CLIENTS; i++)
 	{
@@ -719,7 +725,9 @@ void CGameContext::OnClientConnected(int ClientID, bool Dummy, bool AsSpec)
 
 	m_apPlayers[ClientID] = new(ClientID) CPlayer(this, ClientID, Dummy, AsSpec);
 
+#ifdef MOD
 	MOD->OnClientEnter(ClientID);
+#endif
 
 	if(Dummy)
 		return;
@@ -753,7 +761,10 @@ void CGameContext::OnClientDrop(int ClientID, const char *pReason)
 {
 	AbortVoteOnDisconnect(ClientID);
 	m_pController->OnPlayerDisconnect(m_apPlayers[ClientID]);
+
+#ifdef MOD
 	MOD->OnClientDrop(ClientID);
+#endif
 
 	// update clients on drop
 	if(Server()->ClientIngame(ClientID) || IsClientBot(ClientID))
@@ -1565,7 +1576,9 @@ void CGameContext::OnInit()
 	m_Events.SetGameServer(this);
 	m_CommandManager.Init(m_pConsole, this, NewCommandHook, RemoveCommandHook);
 
+#ifdef MOD
 	MOD = new CModController(this);
+#endif
 
 	// HACK: only set static size for items, which were available in the first 0.7 release
 	// so new items don't break the snapshot delta

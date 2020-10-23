@@ -8,6 +8,8 @@
 
 #include <engine/shared/protocol.h>
 
+#ifdef MOD
+
 class CGameContext;
 class IGameController;
 class IServer;
@@ -49,4 +51,5 @@ private:
 
 extern CModController *g_pMod;
 
+#endif
 #endif

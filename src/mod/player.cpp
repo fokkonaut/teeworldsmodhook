@@ -5,6 +5,8 @@
 #include <game/server/player.h>
 #include <game/server/entities/character.h>
 
+#ifdef MOD
+
 MACRO_ALLOC_POOL_ID_IMPL(CModPlayer, MAX_CLIENTS)
 
 CGameContext *CModPlayer::GameServer() { return MOD->GameServer(); }
@@ -55,3 +57,5 @@ void CModPlayer::OnSnap(int SnappingClient, CNetObj_SpectatorInfo *pSpectatorInf
 {
 
 }
+
+#endif

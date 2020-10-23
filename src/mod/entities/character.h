@@ -4,6 +4,9 @@
 
 #include <game/server/alloc.h>
 #include <generated/protocol.h>
+#include "../defines.h"
+
+#ifdef MOD
 
 class CGameContext;
 class IGameController;
@@ -33,4 +36,5 @@ private:
 	CModPlayer *m_pPlayer;
 };
 
+#endif
 #endif
