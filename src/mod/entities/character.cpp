@@ -17,6 +17,7 @@ IServer *CModCharacter::Server() { return MOD->Server(); }
 CModCharacter::CModCharacter()
 {
 	m_pPlayer = 0;
+	m_pGameChr = 0;
 }
 
 CModCharacter::~CModCharacter()
@@ -27,6 +28,7 @@ CModCharacter::~CModCharacter()
 void CModCharacter::OnSpawn(CModPlayer *pPlayer)
 {
 	m_pPlayer = pPlayer;
+	m_pGameChr = GameServer()->GetPlayerChar(m_pPlayer->GetCID());
 }
 
 void CModCharacter::OnDeath()

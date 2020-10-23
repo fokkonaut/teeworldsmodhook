@@ -11,6 +11,7 @@
 class CGameContext;
 class IGameController;
 class IServer;
+class CPlayer;
 class CModCharacter;
 
 
@@ -38,8 +39,14 @@ public:
 	void OnSnap(int SnappingClient, CNetObj_SpectatorInfo *pSpectatorInfo);
 
 private:
+	// Character controlled by this player within the mod controller
 	CModCharacter *m_pCharacter;
+
+	// Equals to the normal client id
 	int m_ClientID;
+
+	// Player in the teeworlds game source
+	CPlayer *m_pGamePlayer;
 };
 
 #endif

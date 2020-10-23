@@ -23,6 +23,7 @@ CModController::CModController(CGameContext *pGameServer)
 	for (int i = 0; i < MAX_CLIENTS; i++)
 		m_apPlayers[i] = 0;
 
+	// Always force gametype to "mod" when MOD is defined
 	str_copy(GameServer()->Config()->m_SvGametype, "mod", sizeof(GameServer()->Config()->m_SvGametype));
 }
 

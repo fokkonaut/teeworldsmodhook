@@ -18,6 +18,7 @@ CModPlayer::CModPlayer(int ClientID)
 {
 	m_ClientID = ClientID;
 	m_pCharacter = 0;
+	m_pGamePlayer = GameServer()->m_apPlayers[m_ClientID];
 }
 
 CModPlayer::~CModPlayer()

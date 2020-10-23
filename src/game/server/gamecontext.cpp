@@ -1576,10 +1576,6 @@ void CGameContext::OnInit()
 	m_Events.SetGameServer(this);
 	m_CommandManager.Init(m_pConsole, this, NewCommandHook, RemoveCommandHook);
 
-#ifdef MOD
-	MOD = new CModController(this);
-#endif
-
 	// HACK: only set static size for items, which were available in the first 0.7 release
 	// so new items don't break the snapshot delta
 	static const int OLD_NUM_NETOBJTYPES = 23;
@@ -1588,6 +1584,10 @@ void CGameContext::OnInit()
 
 	m_Layers.Init(Kernel());
 	m_Collision.Init(&m_Layers);
+
+#ifdef MOD
+	MOD = new CModController(this);
+#endif
 
 	// select gametype
 	if(str_comp_nocase(Config()->m_SvGametype, "mod") == 0)

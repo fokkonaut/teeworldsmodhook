@@ -7,11 +7,16 @@
 
 #include <game/gamecore.h>
 #include <game/server/entity.h>
+#include <mod/controller.h>
 
 
 class CCharacter : public CEntity
 {
 	MACRO_ALLOC_POOL_ID()
+
+#ifdef MOD
+	friend class CModCharacter;
+#endif
 
 public:
 	//character's size

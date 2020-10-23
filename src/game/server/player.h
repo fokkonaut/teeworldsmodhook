@@ -4,6 +4,7 @@
 #define GAME_SERVER_PLAYER_H
 
 #include "alloc.h"
+#include <mod/controller.h>
 
 
 enum
@@ -17,6 +18,10 @@ enum
 class CPlayer
 {
 	MACRO_ALLOC_POOL_ID()
+
+#ifdef MOD
+	friend class CModPlayer;
+#endif
 
 public:
 	CPlayer(CGameContext *pGameServer, int ClientID, bool Dummy, bool AsSpec = false);
